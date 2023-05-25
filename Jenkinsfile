@@ -8,13 +8,16 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/00Raghu/demopipeline.git'
             }
         }
-        stage('UNIT testing'){
-            steps{            
-               withMaven(maven: 'mvn') {
-            sh 'mvn test'
         
+        stage('UNIT testing'){
+            
+            steps{
+                
+                script{
+                    
+                    sh 'mvn test'
                 }
             }
         }
     }
-}
+}      
