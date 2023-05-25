@@ -2,13 +2,9 @@ pipeline {
 
     agent any
     tools {
-    maven 'M3'
-        }
+    maven 'M2'
+    }
     stages{
-        stage('init') {
-      checkout scm
-         }
-
         stage('Git Checkout'){
 
             steps{
