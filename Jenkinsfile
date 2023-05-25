@@ -68,7 +68,7 @@ pipeline {
                             nexusUrl: 'dummy2023.centralindia.cloudapp.azure.com:8081', 
                             nexusVersion: 'nexus3', 
                             protocol: 'http', 
-                            repository: 'nexusrepo', 
+                            repository: nexusrepo, 
                             version: "${readpomversion.version}"
                 }
             }
