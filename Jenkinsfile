@@ -9,11 +9,16 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/00Raghu/demopipeline.git'
             }
         }
-        stage('Unit Testing'){
+        stage('UNIT testing'){
+            
             steps{
-                 def mvnHome = tool name: 'maven3', type: 'maven'
-                 sh "${mvnHome}/opt/mvn test"
-                 }
+                
+                script{
+                    
+                    sh 'mvn test'
+                }
+            }
         }
+        
     }
 }
