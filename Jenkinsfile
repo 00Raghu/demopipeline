@@ -10,7 +10,7 @@ pipeline {
             }
         }
         stage('Unit Testing'){
-            steps{
+            step{
                  def mvnHome = tool name: 'maven3', type: 'maven'
                  sh "${mvnHome}/opt/mvn test"
             }
