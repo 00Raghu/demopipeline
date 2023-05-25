@@ -1,9 +1,7 @@
 pipeline {
 
     agent any
-    tools {
-    maven 'M3'
-    }
+   
     stages{
         stage('Git Checkout'){
 
@@ -12,9 +10,9 @@ pipeline {
             }
         }
         stage('Unit Testing'){
-
             steps{
-                sh 'mvn test'
+                 def mvnHome = tool name: 'maven3', type: 'maven'
+                 sh "${mvnHome}/opt/mvn test'
             }
         }
     }
