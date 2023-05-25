@@ -42,11 +42,18 @@ pipeline {
               }
             }
          }
-         stage ('Qualitygate Status'){
+         stage('Qualitygate Status'){
             steps{
                 script{
                     waitForQualityGate abortPipeline: false, credentialsId: 'sonar-auth-api1'
 
+                }
+            }
+         }
+         stage('Upload war to Nexus'){
+            steps{
+                script{
+                    nexusArtifactUploader artifacts: [[artifactId: 'springboot', classifier: '', file: 'target/Uber.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'com.example', nexusUrl: 'dummy2023.centralindia.cloudapp.azure.com:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'http://dummy2023.centralindia.cloudapp.azure.com:8081/repository/demoapp-release/', version: '1.0.0'
                 }
             }
          }
