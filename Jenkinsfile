@@ -14,11 +14,11 @@ pipeline {
         }
         stage('UNIT testing'){
             steps{            
-               def mvnHome = tool name: 'maven3', type: 'maven'
+               withMaven(maven: 'mvn') {
+            sh "mvn test"
+        
             }
-               steps{
-                   sh "${mvnHome}/bin/mvn test"
-               }
+               
         }
         
     }
