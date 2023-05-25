@@ -1,8 +1,13 @@
 pipeline {
 
     agent any
-
+    tools {
+    maven 'M3'
+        }
     stages{
+        stage('init') {
+      checkout scm
+         }
 
         stage('Git Checkout'){
 
