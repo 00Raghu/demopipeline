@@ -82,5 +82,20 @@ pipeline {
                 }
             }
          }
+
+         stage('PushImage to Dockerhub'){
+
+            steps{
+
+                script{
+
+                    withCredentials([string(credentialsId: 'Dockerhubcred', variable: 'dockerhub-auth')]) {
+                        sh 'docker login -u raghucurl -p ${dockerhub-auth}'
+                        sh 'docker image push raghucurl/$JOB_NAME:v1.$BUILD_ID'
+                        sh 'docker image push raghucurl/$JOB_NAME:v1.latest'    
+                    }
+                }
+            }     
+        }
     }
 }
