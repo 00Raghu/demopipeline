@@ -90,7 +90,7 @@ pipeline {
                 script{
 
                     withCredentials([string(credentialsId: 'Dockerhubcred', variable: 'dockerhub-auth')]) {
-                        sh 'docker login --username raghucurl --password-stdin ${dockerhub-auth}'
+                        sh 'docker login -u raghucurl -p ${dockerhub-auth}'
                         sh 'docker image push raghucurl/$JOB_NAME:v1.$BUILD_ID'
                         sh 'docker image push raghucurl/$JOB_NAME:v1.latest'    
                     }
