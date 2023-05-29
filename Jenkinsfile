@@ -85,13 +85,20 @@ pipeline {
 
          stage('PushImage to Dockerhub'){
             environment{
-                DOCKERHUB_CEDENTIALS = credentials ('jenkins-dockerhub-auth')
+                DOCKER_HUB_USERNAME = credentials('jenkins-dockerhub-auth')
+                DOCKER_HUB_PASSWORD = credentials('jenkins-dockerhub-auth')
+                DOCKER_HUB_REPO = 'https://hub.docker.com/rcloud01'
+    }
+                //registry = "rcloud01/rcloud01" 
+                //registryCredential = 'jenkins-dockerhub-auth' 
+                // DOCKERHUB_CEDENTIALS = credentials ('jenkins-dockerhub-auth')
             }
 
             steps{
 
                 script{
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    docker.withRegistry('https://registry.hub.docker.com', 'jenkins-dockerhub-auth') {
+                    // sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 
                     // withCredentials([usernameColonPassword(credentialsId: 'jenkins-dockerhub-auth', variable: 'dockerhub-auth')]) {
                     // withCredentials([string(credentialsId: 'Dockerhubcred', variable: 'dockerhub-auth')]) {
