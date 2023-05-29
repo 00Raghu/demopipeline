@@ -87,7 +87,7 @@ pipeline {
             environment{
                 DOCKER_HUB_USERNAME = credentials('jenkins-dockerhub-auth')
                 DOCKER_HUB_PASSWORD = credentials('jenkins-dockerhub-auth')
-                DOCKER_HUB_REPO = 'https://hub.docker.com/rcloud01'
+                DOCKER_HUB_REPO = 'https://hub.docker.com/repository/docker/rcloud01/demopipeline'
     }
                 //registry = "rcloud01/rcloud01" 
                 //registryCredential = 'jenkins-dockerhub-auth' 
@@ -105,6 +105,7 @@ pipeline {
                         sh 'docker image push rcloud01/$JOB_NAME:v1.$BUILD_ID'
                         sh 'docker image push rcloud01/$JOB_NAME:v1.latest'
                         sh 'docker logout'
+                        docker.image("my-image:${env.BUILD_NUMBER}").push("${env.BUILD_NUMBER}")
 
                         // withDockerRegistry(credentialsId: 'jenkins-dockerhub-auth', url: 'https://hub.docker.com/repositories/rcloud01') {
                         // docker.image("my-image:${env.BUILD_NUMBER}").push("${env.BUILD_NUMBER}")   
