@@ -101,10 +101,10 @@ pipeline {
 
                     // withCredentials([usernameColonPassword(credentialsId: 'jenkins-dockerhub-auth', variable: 'dockerhub-auth')]) {
                     // withCredentials([string(credentialsId: 'Dockerhubcred', variable: 'dockerhub-auth')]) {
-                        // sh 'docker login -u rcloud01 --password-stdin ${dockerhub-auth}'
-                        bat 'docker image push rcloud01/$JOB_NAME:v1.$BUILD_ID'
-                        bat 'docker image push rcloud01/$JOB_NAME:v1.latest'
-                        bat 'docker logout'
+                        sh 'docker login -u rcloud01 --password-stdin ${jenkins-dockerhub-auth}'
+                        sh 'docker image push rcloud01/$JOB_NAME:v1.$BUILD_ID'
+                        sh 'docker image push rcloud01/$JOB_NAME:v1.latest'
+                        sh 'docker logout'
 
                         // withDockerRegistry(credentialsId: 'jenkins-dockerhub-auth', url: 'https://hub.docker.com/repositories/rcloud01') {
                         // docker.image("my-image:${env.BUILD_NUMBER}").push("${env.BUILD_NUMBER}")   
