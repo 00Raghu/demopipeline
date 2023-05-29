@@ -92,7 +92,6 @@ pipeline {
                 //registry = "rcloud01/rcloud01" 
                 //registryCredential = 'jenkins-dockerhub-auth' 
                 // DOCKERHUB_CEDENTIALS = credentials ('jenkins-dockerhub-auth')
-            }
 
             steps{
 
@@ -114,3 +113,4 @@ pipeline {
             }     
         }
     }
+}
