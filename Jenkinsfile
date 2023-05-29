@@ -88,11 +88,8 @@ pipeline {
             steps{
 
                 script{
-                    
-                    withCredentials([usernameColonPassword(credentialsId: 'jenkins-dockerhub-auth', variable: 'jen-dochub-cred')]) {
-                        sh 'docker login -u rcloud01 --password-stdin ${jen-dochub-cred}'
-                        sh 'docker image push rcloud01/$JOB_NAME:v1.$BUILD_ID'
-                        sh 'docker image push rcloud01/$JOB_NAME:v1.latest'    
+                        withDockerRegistry(credentialsId: 'jenkins-dockerhub-auth', url: 'https://hub.docker.com/repositories/rcloud01') {
+                        docker.image("my-image:${env.BUILD_NUMBER}").push("${env.BUILD_NUMBER}")   
                     }
                 }
             }     
