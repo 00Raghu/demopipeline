@@ -88,9 +88,9 @@ pipeline {
             steps{
 
                 script{
-
-                    withCredentials([string(credentialsId: 'Dockerhubcred', variable: 'dockerhub-auth')]) {
-                        sh 'docker login -u rcloud01 --password-stdin ${dockerhub-auth}'
+                    
+                    withCredentials([usernameColonPassword(credentialsId: 'jenkins-dockerhub-auth', variable: 'jen-dochub-cred')]) {
+                        sh 'docker login -u rcloud01 --password-stdin ${jen-dochub-cred}'
                         sh 'docker image push rcloud01/$JOB_NAME:v1.$BUILD_ID'
                         sh 'docker image push rcloud01/$JOB_NAME:v1.latest'    
                     }
