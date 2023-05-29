@@ -75,16 +75,16 @@ pipeline {
          }
          stages{
              stage('Docker Image Build') {
-             steps {
-                script {
-                    sh "docker image build -t $JOB_NAME:v1.$BUILD_ID ."
-                    sh "docker image tag $JOB_NAME:v1.$BUILD_ID rcloud01/$JOB_NAME:v1.$BUILD_ID"
-                    sh "docker image tag $JOB_NAME:v1.$BUILD_ID rcloud01/$JOB_NAME:latest"
-                }
-            }
-        }
+                    steps {
+                         script {
+                             sh "docker image build -t $JOB_NAME:v1.$BUILD_ID ."
+                             sh "docker image tag $JOB_NAME:v1.$BUILD_ID rcloud01/$JOB_NAME:v1.$BUILD_ID"
+                             sh "docker image tag $JOB_NAME:v1.$BUILD_ID rcloud01/$JOB_NAME:latest"
+                            }
+                        }
+                } 
 
-            stage('Push Image to Docker Hub') {
+             stage('Push Image to Docker Hub') {
                 environment {
                     DOCKER_HUB_USERNAME = credentials('jenkins-dockerhub-auth')
                     DOCKER_HUB_PASSWORD = credentials('jenkins-dockerhub-auth')
@@ -112,7 +112,7 @@ pipeline {
             echo 'Failed to push Docker image to Docker Hub.'
         }
     }
-}
+  }
 }
 
     
