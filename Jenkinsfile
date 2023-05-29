@@ -59,7 +59,7 @@ pipeline {
                     ],
                     credentialsId: 'nexus-auth',
                     groupId: 'com.example',
-                    nexusUrl: 'http://dummy2023.centralindia.cloudapp.azure.com:8081',
+                    nexusUrl: 'dummy2023.centralindia.cloudapp.azure.com:8081',
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     repository: nexusRepo,
