@@ -91,7 +91,7 @@ pipeline {
             steps{
 
                 script{
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 
                     // withCredentials([usernameColonPassword(credentialsId: 'jenkins-dockerhub-auth', variable: 'dockerhub-auth')]) {
                     // withCredentials([string(credentialsId: 'Dockerhubcred', variable: 'dockerhub-auth')]) {
