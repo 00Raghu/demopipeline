@@ -73,9 +73,9 @@ pipeline {
                 }
             }
          }
-         stages {
-        stage('Docker Image Build') {
-            steps {
+         stages{
+             stage('Docker Image Build') {
+             steps {
                 script {
                     sh "docker image build -t $JOB_NAME:v1.$BUILD_ID ."
                     sh "docker image tag $JOB_NAME:v1.$BUILD_ID rcloud01/$JOB_NAME:v1.$BUILD_ID"
@@ -84,11 +84,11 @@ pipeline {
             }
         }
 
-        stage('Push Image to Docker Hub') {
-            environment {
-                DOCKER_HUB_USERNAME = credentials('jenkins-dockerhub-auth')
-                DOCKER_HUB_PASSWORD = credentials('jenkins-dockerhub-auth')
-                DOCKER_HUB_REPO = 'https://hub.docker.com/repository/docker/rcloud01/demopipeline'
+            stage('Push Image to Docker Hub') {
+                environment {
+                    DOCKER_HUB_USERNAME = credentials('jenkins-dockerhub-auth')
+                    DOCKER_HUB_PASSWORD = credentials('jenkins-dockerhub-auth')
+                    DOCKER_HUB_REPO = 'https://hub.docker.com/repository/docker/rcloud01/demopipeline'
             }
 
             steps {
@@ -104,7 +104,7 @@ pipeline {
         }
     }
 
-    post {
+        post {
         success {
             echo 'Docker image pushed to Docker Hub successfully!'
         }
