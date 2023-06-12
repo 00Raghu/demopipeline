@@ -44,6 +44,7 @@ pipeline {
                 }
             }
         }
+        <<commented
         stage('Upload WAR to Nexus') {
             steps {
                 script {
@@ -67,6 +68,74 @@ pipeline {
                 }
             }
         }
+        commented
+        
+        stage('Upload WAR to Nexus') {
+    steps {
+        script {
+            def readPomVersion = readMavenPom file: 'pom.xml'
+            def nexusRepo = readPomVersion.version.endsWith("SNAPSHOT") ? "demoapp-snapshot" : "demoapp-release"
+            def artifactId = 'springboot'
+            def fileToUpload = 'target/Uber.jar'
+            def groupId = 'com.example'
+            def version = readPomVersion.version
+            
+            // Check if the file with the provided name already exists
+            def artifactExists = nexusArtifactExists(
+                groupId: groupId,
+                artifactId: artifactId,
+                version: version,
+                nexusUrl: 'dummy2023.centralindia.cloudapp.azure.com:8081',
+                nexusVersion: 'nexus3',
+                repository: nexusRepo,
+                protocol: 'http'
+            )
+            
+            if (artifactExists) {
+                // Generate a new artifact name with Jenkins ID and date
+                def timestamp = new Date().format('yyyyMMdd_HHmmss')
+                def newArtifactName = "${artifactId}-${BUILD_ID}-${timestamp}.jar"
+                
+                // Rename the existing artifact with an "Old" tag
+                nexusRenameArtifact(
+                    groupId: groupId,
+                    artifactId: artifactId,
+                    version: version,
+                    nexusUrl: 'dummy2023.centralindia.cloudapp.azure.com:8081',
+                    nexusVersion: 'nexus3',
+                    repository: nexusRepo,
+                    oldFileName: "${artifactId}.jar",
+                    newFileName: "${artifactId}-Old.jar",
+                    protocol: 'http'
+                )
+                
+                // Update the file variable with the new artifact name
+                fileToUpload = "target/${newArtifactName}"
+                
+                // Print a message indicating the renaming action
+                echo "Renamed existing artifact: ${artifactId}.jar to ${artifactId}-Old.jar"
+            }
+            
+            // Upload the new/latest artifact to Nexus
+            nexusArtifactUploader artifacts: [
+                [
+                    artifactId: artifactId,
+                    classifier: '',
+                    file: fileToUpload,
+                    type: 'jar'
+                ]
+            ],
+            credentialsId: 'nexus-auth',
+            groupId: groupId,
+            nexusUrl: 'dummy2023.centralindia.cloudapp.azure.com:8081',
+            nexusVersion: 'nexus3',
+            protocol: 'http',
+            repository: nexusRepo,
+            version: version
+        }
+    }
+}
+
         stage('Docker Image Build') {
             steps {
                 script {
