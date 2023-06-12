@@ -44,32 +44,7 @@ pipeline {
                 }
             }
         }
-        <<commented
-        stage('Upload WAR to Nexus') {
-            steps {
-                script {
-                    def readPomVersion = readMavenPom file: 'pom.xml'
-                    def nexusRepo = readPomVersion.version.endsWith("SNAPSHOT") ? "demoapp-snapshot" : "demoapp-release"
-                    nexusArtifactUploader artifacts: [
-                        [
-                            artifactId: 'springboot',
-                            classifier: '',
-                            file: 'target/Uber.jar',
-                            type: 'jar'
-                        ]
-                    ],
-                    credentialsId: 'nexus-auth',
-                    groupId: 'com.example',
-                    nexusUrl: 'dummy2023.centralindia.cloudapp.azure.com:8081',
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    repository: nexusRepo,
-                    version: "${readPomVersion.version}"
-                }
-            }
-        }
-        commented
-        
+                
         stage('Upload WAR to Nexus') {
     steps {
         script {
